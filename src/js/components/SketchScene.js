@@ -35,9 +35,10 @@ class SketchScene extends React.Component {
         <Renderer program={this.props.program}/>
 
         {this.props.program.map((line, i) =>
-          <Entity text={{curveSegments: 1, bevelThickness: 1, size: 0.25, text: line}}
+          <Entity look-at="[camera]"
                   material={{color: 'red', shader: 'flat'}}
-                  position={`0 ${-0.25 * i} -10`}>
+                  position={`5 ${-0.25 * i} -5`}
+                  text={{curveSegments: 1, bevelThickness: 1, size: 0.25, text: line}}>
           </Entity>
         )}
       </Scene>
