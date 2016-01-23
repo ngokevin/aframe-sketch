@@ -4,11 +4,8 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
-import Camera from './Camera';
-import Cursor from './Cursor';
-import Light from './Light';
+import Editor from './Editor';
 import Renderer from './Renderer';
-import Sky from './Sky';
 import {backspace, characterEnter, newLine} from '../actions/editor';
 
 class SketchScene extends React.Component {
@@ -29,18 +26,15 @@ class SketchScene extends React.Component {
   render () {
     return (
       <Scene>
-        <Camera></Camera>
+        <Entity position="0 0 5">
+          <Entity camera look-controls/>
+        </Entity>
 
-        <Sky/>
-        <Renderer program={this.props.program}/>
+        <Entity id="sky" geometry={{primitive: 'sphere', radius: 5000}}
+                material={{color: '#2994B2', shader: 'flat'}} scale="1 1 -1"/>
 
-        {this.props.program.map((line, i) =>
-          <Entity look-at="[camera]"
-                  material={{color: 'red', shader: 'flat'}}
-                  position={`5 ${-0.25 * i} -5`}
-                  text={{curveSegments: 1, bevelThickness: 1, size: 0.25, text: line}}>
-          </Entity>
-        )}
+        <Renderer tree={this.props.tree}/>
+        <Editor program={this.props.program}/>
       </Scene>
     );
   }
