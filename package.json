@@ -1,7 +1,7 @@
 {
-  "name": "aframe-react-boilerplate",
+  "name": "aframe-sketch",
   "version": "1.0.0",
-  "description": "Boilerplate for using A-Frame (VR) with React.",
+  "description": "",
   "dependencies": {
     "aframe": "aframevr/aframe#dev",
     "aframe-react": "^1.0.4",
@@ -31,7 +31,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ngokevin/aframe-react-boilerplate.git"
+    "url": "git+https://github.com/ngokevin/aframe-sketch.git"
   },
   "keywords": [
     "aframe",
@@ -45,9 +45,9 @@
   "author": "Kevin Ngo <kngo@mozilla.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/ngokevin/aframe-react-boilerplate/issues"
+    "url": "https://github.com/ngokevin/aframe-sketch/issues"
   },
-  "homepage": "https://github.com/ngokevin/aframe-react-boilerplate#readme",
+  "homepage": "https://github.com/ngokevin/aframe-sketch#readme",
   "devDependencies": {
     "babel": "^6.3.13",
     "babel-core": "^6.3.15",
