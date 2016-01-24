@@ -12,15 +12,25 @@ class SketchScene extends React.Component {
   constructor(props) {
     super(props);
 
+    this.state = {
+      showEditor: true
+    };
+
     'abcdefghijklmnopqrstuvwxyz<>"=-/:'.split('').forEach(character => {
       Key.bind(character, event => {
         props.characterEnter(event.key);
       });
     });
 
-    Key.bind('space', event => { props.characterEnter(' '); });
-    Key.bind('backspace', event => { props.backspace(); });
-    Key.bind('enter', event => { props.newLine(); });
+    Key.bind('space', () => { props.characterEnter(' '); });
+    Key.bind('backspace', () => { props.backspace(); });
+    Key.bind('enter', () => { props.newLine(); });
+
+    Key.bind(['ctrl+s', 'command+s'], () => {
+      this.setState({
+        showEditor: !this.state.showEditor
+      });
+    });
   }
 
   render () {
@@ -34,7 +44,7 @@ class SketchScene extends React.Component {
                 material={{color: '#2994B2', shader: 'flat'}} scale="1 1 -1"/>
 
         <Renderer tree={this.props.tree}/>
-        <Editor program={this.props.program}/>
+        {this.state.showEditor && <Editor program={this.props.program}/>}
       </Scene>
     );
   }
