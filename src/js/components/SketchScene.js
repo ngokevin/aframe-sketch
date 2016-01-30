@@ -6,7 +6,7 @@ import {bindActionCreators} from 'redux';
 
 import Editor from './Editor';
 import Renderer from './Renderer';
-import {backspace, characterEnter, newLine} from '../actions/editor';
+import {backspace, characterEnter, cursorLeft, cursorRight, newLine} from '../actions/editor';
 
 class SketchScene extends React.Component {
   constructor(props) {
@@ -16,21 +16,38 @@ class SketchScene extends React.Component {
       showEditor: true
     };
 
-    'abcdefghijklmnopqrstuvwxyz<>"=-/:'.split('').forEach(character => {
+    const charWhitelist = 'abcdefghijklmnopqrstuvwxyz<>"=-/:;0123456789'.split('');
+    charWhitelist.forEach((character, i) => {
       Key.bind(character, event => {
-        props.characterEnter(event.key);
+        event.preventDefault();
+        event.stopPropagation();
+        props.characterEnter(charWhitelist[i]);
       });
     });
 
-    Key.bind('space', () => { props.characterEnter(' '); });
-    Key.bind('backspace', () => { props.backspace(); });
-    Key.bind('enter', () => { props.newLine(); });
+    Key.bind('backspace', event => {
+      event.preventDefault();
+      event.stopPropagation();
+      props.backspace();
+    });
 
-    Key.bind(['ctrl+s', 'command+s'], () => {
+    Key.bind(['ctrl+z', 'command+z'], event => {
+      event.preventDefault();
+      event.stopPropagation();
       this.setState({
         showEditor: !this.state.showEditor
       });
     });
+
+
+    Key.bind('enter', () => { props.newLine(); });
+
+    Key.bind('left', () => { props.cursorLeft(); });
+
+    Key.bind('right', () => { props.cursorRight(); });
+
+    Key.bind('space', () => { props.characterEnter(' '); });
+
   }
 
   render () {
@@ -44,20 +61,20 @@ class SketchScene extends React.Component {
                 material={{color: '#2994B2', shader: 'flat'}} scale="1 1 -1"/>
 
         <Renderer tree={this.props.tree}/>
-        {this.state.showEditor && <Editor program={this.props.program}/>}
+        {this.state.showEditor && <Editor cursor={this.props.cursor}
+                                          program={this.props.program}/>}
       </Scene>
     );
   }
 }
 
 export default connect(
-  state => ({
-    line: state.editor.line,
-    program: state.editor.program
-  }),
+  state => ({...state.editor}),
   dispatch => bindActionCreators({
     backspace,
     characterEnter,
+    cursorLeft,
+    cursorRight,
     newLine
   }, dispatch)
 )(SketchScene);

@@ -9,15 +9,21 @@ export default props => {
               material="color: #FFFBE0; opacity: 0.5; shader: flat" position="7 -1.5 0"/>
 
       <Entity id="editor-text">
-        {props.program.map((line, i) =>
+        {props.program.map((line, i) => (
           <Entity className="editor-line"
                   look-at="[camera]"
                   material={{color: '#474744', shader: 'flat'}}
-                  position={`0 ${-0.25 * i} 0`}
+                  position={`0 ${-0.5 * i} 0`}
                   text={{curveSegments: 1, bevelSize: .05, bevelThickness: 0.01, size: 0.25,
                          text: line}}>
+            {props.cursor.line === i &&
+              <Entity material={{color: '#000', shader: 'flat'}}
+                      position={`${props.cursor.column * 0.15} 0 0`}
+                      text={{curveSegments: 1, bevelSize: .05, bevelThickness: 0.01,
+                             size: 0.25, text: '|'}}/>
+            }
           </Entity>
-        )}
+        ))}
       </Entity>
     </Entity>
   );
